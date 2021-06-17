@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity,ScrollView} from 'react-native';
 import {COLORS, SIZES, FONTS, styles, images, icons} from '../constants';
 import {LinearGradient} from 'expo-linear-gradient';
 
@@ -33,7 +33,7 @@ const StarReview = ({rate}) => {
     );
   }
 
-  // No Star
+  // No Star 
   for (let i = 0; i < noStar; i++) {
     stars.push(
       <Image
@@ -70,7 +70,7 @@ const DestinationDetail = ({navigation}) => (
     {/* header */}
     <View style={{flex: 2}}>
       <Image
-        source={images.skiVillaBanner}
+        source={images.room2}
         resizeMode="cover"
         style={{height: '80%', width: '100%'}}
       />
@@ -101,16 +101,15 @@ const DestinationDetail = ({navigation}) => (
               marginHorizontal: SIZES.radius,
               justifyContent: 'space-around',
             }}>
-            <Text style={{...FONTS.h3}}>Ski Villa</Text>
-            <Text style={{color: COLORS.gray, ...FONTS.body3}}>France</Text>
+            <Text style={{...FONTS.h3}}>Chambre Double</Text>
+            {/* <Text style={{color: COLORS.gray, ...FONTS.body3}}>France</Text> */}
             <StarReview rate={3.5} />
           </View>
         </View>
 
         <View style={{marginTop: SIZES.radius}}>
           <Text style={{color: COLORS.gray, ...FONTS.body3}}>
-            Ski Villa offers simple rooms with mountain views in front of the
-            ski lift to the Ski Resort
+           Descreption du room
           </Text>
         </View>
       </View>
@@ -147,7 +146,7 @@ const DestinationDetail = ({navigation}) => (
     </View>
 
     {/* body */}
-    <View style={{flex: 1.5}}>
+    <ScrollView style={{flex: 1.8}}>
       {/* icons */}
       <View
         style={{
@@ -158,7 +157,7 @@ const DestinationDetail = ({navigation}) => (
         }}>
         <IconLabel icon={icons.villa} label="Villa" />
         <IconLabel icon={icons.parking} label="Parking" />
-        <IconLabel icon={icons.wind} label="-4 °C" />
+        <IconLabel icon={icons.wind} label="20 °C" />
       </View>
 
       {/* about */}
@@ -170,16 +169,13 @@ const DestinationDetail = ({navigation}) => (
         <Text style={{...FONTS.h2}}>About</Text>
         <Text
           style={{marginTop: SIZES.radius, color: COLORS.gray, ...FONTS.body3}}>
-          Located at the Alps with an altitude of 1,702 meters. The ski area is
-          the largest ski area in the world and is known as the best place to
-          ski. Many other facilities, such as fitness center, sauna, steam room
-          to star-rated restaurants.
+          descreption longue
         </Text>
       </View>
-    </View>
+    </ScrollView>
 
     {/* footer */}
-    <View style={{flex: 0.5, paddingHorizontal: SIZES.padding}}>
+    <View style={{flex: 0.5, paddingHorizontal: SIZES.padding }}>
       <LinearGradient
         style={{height: 70, width: '100%', borderRadius: 15}}
         colors={['#edf0fc', '#d6dfff']}
@@ -192,7 +188,7 @@ const DestinationDetail = ({navigation}) => (
               marginHorizontal: SIZES.padding,
               justifyContent: 'center',
             }}>
-            <Text style={{...FONTS.h1}}>$799</Text>
+            <Text style={{...FONTS.h1}}>$50</Text>
           </View>
           <TouchableOpacity
             style={{
@@ -201,7 +197,7 @@ const DestinationDetail = ({navigation}) => (
               marginHorizontal: SIZES.radius,
             }}
             onPress={() => {
-              console.log('Booking on pressed');
+              navigation.navigate('Paiement');
             }}>
             <LinearGradient
               style={[

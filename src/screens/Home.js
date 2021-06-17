@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  ScrollView,
+  SafeAreaView,
+  Picker
 } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import {
@@ -17,140 +20,168 @@ import {
   destinations,
   styles,
 } from '../constants';
+import { rooms } from '../constants/data';
+
 
 const Home = ({navigation}) => {
-  const OptionItem = ({icon, bgColor, label, onPress}) => (
-    <TouchableOpacity
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      onPress={onPress}>
-      <View style={{height: 60, width: 60}}>
-        <LinearGradient
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 15,
-          }}
-          colors={bgColor}
-          start={{x: 0, y: 0}}
-          end={{x: 0, y: 1}}>
-          <Image
-            source={icon}
-            resizeMode="contain"
-            style={{height: 30, width: 30, tintColor: COLORS.white}}
-          />
-        </LinearGradient>
-      </View>
-      <Text style={{marginTop: SIZES.base, color: COLORS.gray, ...FONTS.body3}}>
-        {label}
-      </Text>
-    </TouchableOpacity>
-  );
+    const [selectedValue, setSelectedValue] = useState("Sousse");
+    const [selectedValue2, setSelectedValue2] = useState("1 Adulte");
+
+  
+
+ 
 
   const renderDestination = ({item, index}) => {
     const destinationStyle = index === 0 ? {marginLeft: SIZES.padding} : {};
     return (
       <TouchableOpacity
         style={{
-          justifyContent: 'center',
+       
           marginHorizontal: SIZES.base,
           ...destinationStyle,
         }}
-        onPress={() => {
-          navigation.navigate('DestinationDetail');
-        }}>
+       >
         <Image
           source={item.img}
           resizeMode="cover"
           style={{
-            width: SIZES.width * 0.28,
-            height: '82%',
+            width: SIZES.width * 0.42,
+            height: SIZES.height * 0.25,
             borderRadius: 15,
           }}
         />
-        <Text style={{marginTop: SIZES.base / 2, ...FONTS.h4}}>
-          {item.name}
-        </Text>
+        
       </TouchableOpacity>
     );
   };
 
-  return (
-    <View style={styles.container}>
-      {/* Banner  */}
-      <View
-        style={{
-          flex: 1,
-          marginTop: SIZES.padding,
-          paddingHorizontal: SIZES.padding,
-        }}>
+
+  const renderRoom = ({item, index}) => {
+    const destinationStyle = index === 0 ? {marginLeft: SIZES.padding} : {};
+
+    return (
+      <TouchableOpacity
+      style={{
+        marginHorizontal: SIZES.base,
+        paddingLeft : 10,
+        paddingBottom : 10
+      }}
+      onPress={() => {
+        navigation.navigate('DestinationDetail');
+        
+      }}
+       >
         <Image
-          source={images.homeBanner}
+          source={item.img}
           resizeMode="cover"
-          style={{width: '100%', height: '100%', borderRadius: 15}}
+          style={{width: 150, height:120, borderRadius: 10}}
         />
+        
+      </TouchableOpacity>
+    );
+  };
+
+
+
+
+  return (
+    <SafeAreaView style={styles.container}>
+    
+       {/* Filtre */}
+       <View style={{flex: 0.2 }}>
+          <View style={{flex: 1 ,flexDirection:'row'  }}>
+
+            <Text
+            style={{
+              marginTop: SIZES.padding,
+              paddingHorizontal: SIZES.padding,
+              ...FONTS.h3,
+            }}>
+          Destination
+            </Text>
+
+            <Text
+            style={{
+              marginTop: SIZES.padding,
+              paddingHorizontal: SIZES.padding,
+              ...FONTS.h3,
+            }}>
+            type Du chambre
+            </Text>
+            </View>
+          <View style={{flex: 1,flexDirection:'row' , justifyContent:'flex-start', fontSize:17 , paddingLeft:17}}>
+
+          <Picker
+            selectedValue={selectedValue}
+            style={{ height: 50, width: 130 }}
+            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          >
+            <Picker.Item label="Sousse" value="sousse" />
+            <Picker.Item label="Madrid" value="madrid" />
+          </Picker>
+          
+        
+          
+
+          <Picker
+            selectedValue={selectedValue}
+            style={{ height: 50, width: 150 }}
+            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          >
+            <Picker.Item label="1 Adulte" value="1 adulte" />
+            <Picker.Item label="2 Adultes" value="2 adulte" />
+          </Picker>
+            </View>
+
       </View>
 
-      {/* Options */}
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <View
+  <ScrollView style={{flex:0.5}}>
+        {/* Banner */}
+   <View>
+   <Text
           style={{
-            flexDirection: 'row',
-            marginTop: SIZES.padding,
-            paddingHorizontal: SIZES.padding,
-          }}>
-          {optionItems.slice(0, 4).map(({icon, bgColor, label}, index) => (
-            <OptionItem
-              key={index + '-' + label}
-              icon={icon}
-              bgColor={bgColor}
-              label={label}
-              onPress={() => console.log(`${label} Press.`)}
-            />
-          ))}
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            marginTop: SIZES.radius,
-            paddingHorizontal: SIZES.padding,
-          }}>
-          {optionItems.slice(4).map(({icon, bgColor, label}, index) => (
-            <OptionItem
-              key={index + '-' + label}
-              icon={icon}
-              bgColor={bgColor}
-              label={label}
-              onPress={() => console.log(`${label} Press.`)}
-            />
-          ))}
-        </View>
-      </View>
-
-      {/* Destination */}
-      <View style={{flex: 1}}>
-        <Text
-          style={{
-            marginTop: SIZES.padding,
+            marginTop: 5,
+            marginBottom: 15,
             paddingHorizontal: SIZES.padding,
             ...FONTS.h3,
+         
           }}>
-          Destination
+          Our Hotel
         </Text>
-        <FlatList
-          horizontal
+       <FlatList
+        horizontal
           showsHorizontalScrollIndicator={false}
           data={destinations}
           keyExtractor={(item) => item.id.toString()}
           renderItem={(item, index) => renderDestination(item, index)}
         />
-      </View>
-    </View>
+        <Text
+          style={{
+            marginTop: 10,
+            marginBottom: 5,
+
+            paddingHorizontal: SIZES.padding,
+            ...FONTS.h3,
+         
+          }}>
+          Room
+        </Text>
+
+        <FlatList
+           columnWrapperStyle={{justifyContent: 'space-around'}}
+           numColumns={2}
+          showsHorizontalScrollIndicator={false}
+          data={rooms}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={(item, index) => renderRoom(item, index)}
+        />
+
+          
+          </View>
+      </ScrollView>
+
+     
+    </SafeAreaView>
   );
 };
 

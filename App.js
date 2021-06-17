@@ -6,7 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 
 // screens
-import {Onboarding, DestinationDetail} from './src/screens';
+import {Onboarding, DestinationDetail , Register , Account , Paiement , Extra} from './src/screens';
 
 // tabs
 import Tabs from './src/navigation/tabs';
@@ -37,6 +37,7 @@ export default function App() {
       <NavigationContainer style={theme}>
         <Stack.Navigator initialRouteName="Onboarding">
           {/* screen  */}
+        
           <Stack.Screen
             name="Onboarding"
             component={Onboarding}
@@ -62,8 +63,15 @@ export default function App() {
                   />
                 </TouchableOpacity>
               ),
+             headerShown: false
             }}
           />
+
+        <Stack.Screen options={{headerShown:false}} name="Register" component={Register} />
+        <Stack.Screen options={{headerShown:false}} name="Account" component={Account} />
+        <Stack.Screen options={{headerShown:false}} name="Paiement" component={Paiement} />
+        <Stack.Screen options={{headerShown:false}} name="Extra" component={Extra} />
+
           <Stack.Screen
             name="DestinationDetail"
             component={DestinationDetail}
@@ -73,8 +81,10 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={Tabs}
+            
             options={{
               title: null,
+              headerShown: false,
               headerStyle: {
                 backgroundColor: COLORS.white,
               },
@@ -108,6 +118,7 @@ export default function App() {
               ),
             }}
           />
+
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -48,16 +48,36 @@ export const destinations = [
   {
     id: 0,
     name: 'Ski Villa',
-    img: images.skiVilla,
+    img: images.sousse,
   },
   {
     id: 1,
     name: 'Climbing Hills',
-    img: images.climbingHills,
+    img: images.sousse2,
   },
   {
     id: 2,
     name: 'Frozen Hills',
+    img: images.sousse3,
+  },
+  
+];
+
+
+export const rooms = [
+  {
+    id: 0,
+    name: 'Simple',
+    img: images.room,
+  },
+  {
+    id: 1,
+    name: 'Double',
+    img: images.climbingHills,
+  },
+  {
+    id: 2,
+    name: 'Triple',
     img: images.frozenHills,
   },
   {
@@ -65,6 +85,17 @@ export const destinations = [
     name: 'Beach',
     img: images.beach,
   },
+  {
+    id: 4,
+    name: 'Simple',
+    img: images.room,
+  },
+  {
+    id: 5,
+    name: 'Double',
+    img: images.climbingHills,
+  },
+ 
 ];
 
 export default {optionItems, destinations};

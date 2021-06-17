@@ -3,6 +3,8 @@ import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {Home} from '../screens';
+import {Account} from '../screens';
+import {Reservation} from '../screens';
 import {icons, COLORS} from '../constants';
 
 const Tab = createBottomTabNavigator();
@@ -34,23 +36,23 @@ const Tabs = () => (
               <Image
                 source={icons.home}
                 resizeMode="contain"
-                style={{tintColor: tintColor, height: 30, width: 30}}
+                style={{tintColor: tintColor, height: 30, width: 40}}
               />
             );
-          case 'Search':
-            return (
-              <Image
-                source={icons.search}
-                resizeMode="contain"
-                style={{tintColor: tintColor, height: 30, width: 30}}
-              />
-            );
-          case 'Bookmark':
+          // case 'Search':
+          //   return (
+          //     <Image
+          //       source={icons.search}
+          //       resizeMode="contain"
+          //       style={{tintColor: tintColor, height: 30, width: 30}}
+          //     />
+          //   );
+          case 'Reservation':
             return (
               <Image
                 source={icons.bookmark}
                 resizeMode="contain"
-                style={{tintColor: tintColor, height: 30, width: 30}}
+                style={{tintColor: tintColor, height: 30, width: 40}}
               />
             );
           case 'Account':
@@ -58,16 +60,16 @@ const Tabs = () => (
               <Image
                 source={icons.user}
                 resizeMode="contain"
-                style={{tintColor: tintColor, height: 30, width: 30}}
+                style={{tintColor: tintColor, height: 30, width: 40}}
               />
             );
         }
       },
     })}>
     <Tab.Screen name="Home" component={Home} />
-    <Tab.Screen name="Search" component={Home} />
-    <Tab.Screen name="Bookmark" component={Home} />
-    <Tab.Screen name="Account" component={Home} />
+    {/* <Tab.Screen name="Search" component={Home} /> */}
+    <Tab.Screen name="Reservation" component={Reservation} />
+    <Tab.Screen name="Account"  component={Account} />
   </Tab.Navigator>
 );
 
