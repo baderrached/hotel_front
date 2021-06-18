@@ -7,7 +7,7 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
-CREATE DATABASE `ahmed` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE `ahmedd` ;
 USE `ahmed`;
 
 DROP TABLE IF EXISTS `extra`;
@@ -17,7 +17,7 @@ CREATE TABLE `extra` (
   `descreption` varchar(255) NOT NULL,
   `price` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 
 DROP TABLE IF EXISTS `extra_demande`;
@@ -27,7 +27,7 @@ CREATE TABLE `extra_demande` (
   `descreption` varchar(255) NOT NULL,
   `amount` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 
 DROP TABLE IF EXISTS `hotels`;
@@ -37,7 +37,7 @@ CREATE TABLE `hotels` (
   `room` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 INSERT INTO `hotels` (`id`, `name`, `room`, `location`) VALUES
 (1,	'Hotel 1',	'1',	'Sousse');
@@ -50,7 +50,7 @@ CREATE TABLE `payment` (
   `ex_date` varchar(255) NOT NULL,
   `cvv` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 INSERT INTO `payment` (`id`, `id_user`, `card_number`, `ex_date`, `cvv`) VALUES
 (1,	'1',	'1234556',	'024',	555),
@@ -72,7 +72,7 @@ CREATE TABLE `reservations` (
   `amount` float NOT NULL,
   `nb_nuit` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 
 DROP TABLE IF EXISTS `rooms`;
@@ -88,7 +88,7 @@ CREATE TABLE `rooms` (
   `hotel_id` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 INSERT INTO `rooms` (`id`, `room_name`, `nb_adulte`, `nb_children`, `type`, `descreption`, `price`, `nb_disponible`, `hotel_id`, `image`) VALUES
 (1,	'room 1 ',	2,	0,	'double',	'double',	150,	8,	'1',	'https://i.ytimg.com/vi/6K44JEduspY/maxresdefault.jpg'),
@@ -104,10 +104,10 @@ CREATE TABLE `users` (
   `gender` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL,
   `nb_reservation` int NOT NULL,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4,
+  `password` varchar(255) CHARACTER SET utf8mb4,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `passeport`, `cin`, `gender`, `country`, `nb_reservation`, `username`, `password`) VALUES
 (1,	'bader',	'rachedddddddddd',	'123456789',	'12841138',	'male',	'sousse',	0,	'bader',	'123456789'),

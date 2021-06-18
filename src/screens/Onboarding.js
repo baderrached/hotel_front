@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,24 @@ import {
 import {LinearGradient} from 'expo-linear-gradient';
 
 import {COLORS, images, SIZES, FONTS, styles} from '../constants';
+import axios from 'axios'
+const Onboarding = ({navigation}) => {
+  const [username,setUsername]=useState('');
+  const [password,setPassword]=useState('');
+const submit=async()=>{
 
-const Onboarding = ({navigation}) => (
+const post=await axios.post('http://192.168.1.154:3000/login',{
+  "username":username,
+  "password":password
+})
+if (post.data.error==0){
+   navigation.navigate('Home')
+
+}else{
+  console.log('erreur');
+}
+}
+  return(
   <SafeAreaView style={styles.container}>
     <View style={{flex: 0.7, alignItems: 'center', justifyContent: 'center'}}>
       <Image
@@ -29,7 +45,7 @@ const Onboarding = ({navigation}) => (
            source={{uri: 'https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png'}}/>
           <TextInput style={styles.inputs}
               placeholder="Username"
-              secureTextEntry={true}
+              onChangeText={text => setUsername(text)}
               underlineColorAndroid='transparent'/>
         </View>
 
@@ -38,6 +54,7 @@ const Onboarding = ({navigation}) => (
           <TextInput style={styles.inputs}
               placeholder="Password"
               secureTextEntry={true}
+              onChangeText={text => setPassword(text)}
               underlineColorAndroid='transparent'/>
         </View>
        
@@ -52,7 +69,9 @@ const Onboarding = ({navigation}) => (
             justifyContent: 'center',
           },
         ]}
-        onPress={() => navigation.navigate('Home')}>
+        onPress={()=>{
+          submit()
+        }}>
         <LinearGradient
           style={{
             height: '100%',
@@ -70,12 +89,12 @@ const Onboarding = ({navigation}) => (
 
       <TouchableOpacity 
        style={styles.buttonContainer}
-       onPress={() => navigation.navigate('Register')}>
+       onPress={() => navigation.navigate('Register') }>
        
         <Text>Register</Text>
         </TouchableOpacity>
     </View>
   </SafeAreaView>
-);
+);}
 
 export default Onboarding;

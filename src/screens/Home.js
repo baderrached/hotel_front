@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -20,15 +20,38 @@ import {
   destinations,
   styles,
 } from '../constants';
-import { rooms } from '../constants/data';
+
+import axios from 'axios';
 
 
-const Home = ({navigation}) => {
+const Home = ({navigation,route }) => {
     const [selectedValue, setSelectedValue] = useState("Sousse");
     const [selectedValue2, setSelectedValue2] = useState("1 Adulte");
 
-  
+  const [hotels,setHotels]=useState([])
+  const [rooms,setRooms]=useState([])
 
+  const getHotels=async()=>{
+    const hotelss= axios.get('http://192.168.1.154:3000/hotels').then(resp=>{
+      
+      setHotels(resp.data.records)
+
+    })
+ 
+  }
+  const getRooms=async()=>{
+    const rooms= axios.get('http://192.168.1.154:3000/rooms').then(resp=>{
+
+      setRooms(resp.data.records)
+
+    })
+ 
+  }
+useEffect(()=>{
+getHotels()
+getRooms()
+console.log(hotels);
+},[]) 
  
 
   const renderDestination = ({item, index}) => {
@@ -42,7 +65,7 @@ const Home = ({navigation}) => {
         }}
        >
         <Image
-          source={item.img}
+          source={{uri:item.image}}
           resizeMode="cover"
           style={{
             width: SIZES.width * 0.42,
@@ -67,12 +90,17 @@ const Home = ({navigation}) => {
         paddingBottom : 10
       }}
       onPress={() => {
-        navigation.navigate('DestinationDetail');
+        navigation.navigate({
+          name: 'DestinationDetail',
+          params: {  room:item },
+      
+        });
+        
         
       }}
        >
         <Image
-          source={item.img}
+          source={{uri:item.image}}
           resizeMode="cover"
           style={{width: 150, height:120, borderRadius: 10}}
         />
@@ -151,7 +179,7 @@ const Home = ({navigation}) => {
        <FlatList
         horizontal
           showsHorizontalScrollIndicator={false}
-          data={destinations}
+          data={hotels}
           keyExtractor={(item) => item.id.toString()}
           renderItem={(item, index) => renderDestination(item, index)}
         />

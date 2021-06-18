@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import {View, Text, Image, TouchableOpacity,ScrollView} from 'react-native';
 import {COLORS, SIZES, FONTS, styles, images, icons} from '../constants';
 import {LinearGradient} from 'expo-linear-gradient';
 
-const StarReview = ({rate}) => {
+const StarReview = ({rate}) => { 
   const stars = [];
   const fullStar = Math.floor(rate);
   const noStar = Math.floor(5 - rate);
@@ -65,12 +65,20 @@ const IconLabel = ({icon, label}) => (
   </View>
 );
 
-const DestinationDetail = ({navigation}) => (
+const DestinationDetail = ({route,navigation}) =>{ 
+  const [room,setRoom]=useState([])
+  useEffect(()=>{
+     const data = route.params.room
+     setRoom(data);
+    console.log(data);
+  
+  })
+  return(
   <View style={styles.container}>
     {/* header */}
     <View style={{flex: 2}}>
       <Image
-        source={images.room2}
+        source={{uri:room.image}}
         resizeMode="cover"
         style={{height: '80%', width: '100%'}}
       />
@@ -91,7 +99,8 @@ const DestinationDetail = ({navigation}) => (
         <View style={{flexDirection: 'row'}}>
           <View style={styles.shadow}>
             <Image
-              source={images.skiVilla}
+              source={{uri:room.image}}
+
               resizeMode="cover"
               style={{width: 70, height: 70, borderRadius: 15}}
             />
@@ -101,7 +110,7 @@ const DestinationDetail = ({navigation}) => (
               marginHorizontal: SIZES.radius,
               justifyContent: 'space-around',
             }}>
-            <Text style={{...FONTS.h3}}>Chambre Double</Text>
+            <Text style={{...FONTS.h3}}>{room.room_name}</Text>
             {/* <Text style={{color: COLORS.gray, ...FONTS.body3}}>France</Text> */}
             <StarReview rate={3.5} />
           </View>
@@ -109,7 +118,7 @@ const DestinationDetail = ({navigation}) => (
 
         <View style={{marginTop: SIZES.radius}}>
           <Text style={{color: COLORS.gray, ...FONTS.body3}}>
-           Descreption du room
+         {room.descreption}
           </Text>
         </View>
       </View>
@@ -133,15 +142,7 @@ const DestinationDetail = ({navigation}) => (
           </TouchableOpacity>
         </View>
 
-        <View style={{flex: 1, alignItems: 'flex-end'}}>
-          <TouchableOpacity onPress={() => console.log('menu')}>
-            <Image
-              source={icons.menu}
-              resizeMode="cover"
-              style={{height: 30, width: 30}}
-            />
-          </TouchableOpacity>
-        </View>
+      
       </View>
     </View>
 
@@ -169,7 +170,7 @@ const DestinationDetail = ({navigation}) => (
         <Text style={{...FONTS.h2}}>About</Text>
         <Text
           style={{marginTop: SIZES.radius, color: COLORS.gray, ...FONTS.body3}}>
-          descreption longue
+         {room.descreption}
         </Text>
       </View>
     </ScrollView>
@@ -188,7 +189,7 @@ const DestinationDetail = ({navigation}) => (
               marginHorizontal: SIZES.padding,
               justifyContent: 'center',
             }}>
-            <Text style={{...FONTS.h1}}>$50</Text>
+            <Text style={{...FONTS.h1}}>{room.price}$</Text>
           </View>
           <TouchableOpacity
             style={{
@@ -219,5 +220,5 @@ const DestinationDetail = ({navigation}) => (
     </View>
   </View>
 );
-
+}
 export default DestinationDetail;

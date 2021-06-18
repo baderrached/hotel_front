@@ -35,7 +35,7 @@ export default function App() {
   } else {
     return (
       <NavigationContainer style={theme}>
-        <Stack.Navigator initialRouteName="Onboarding">
+        <Stack.Navigator initialRouteName="Home">
           {/* screen  */}
         
           <Stack.Screen
