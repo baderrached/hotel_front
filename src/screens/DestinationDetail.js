@@ -72,7 +72,7 @@ const DestinationDetail = ({route,navigation}) =>{
      setRoom(data);
     console.log(data);
   
-  })
+  },[])
   return(
   <View style={styles.container}>
     {/* header */}
@@ -198,7 +198,13 @@ const DestinationDetail = ({route,navigation}) =>{
               marginHorizontal: SIZES.radius,
             }}
             onPress={() => {
-              navigation.navigate('Paiement');
+
+
+              navigation.navigate({
+                name: 'Paiement',
+                params: {  room:room },
+            
+              });
             }}>
             <LinearGradient
               style={[

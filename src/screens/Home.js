@@ -25,22 +25,24 @@ import axios from 'axios';
 
 
 const Home = ({navigation,route }) => {
-    const [selectedValue, setSelectedValue] = useState("Sousse");
-    const [selectedValue2, setSelectedValue2] = useState("1 Adulte");
-
+    const [selectedValue, setSelectedValue] = useState("tout");
+    const [selectedValue2, setSelectedValue2] = useState("tout");
+const [filterActive,setActiveFilter]=useState(false)
   const [hotels,setHotels]=useState([])
   const [rooms,setRooms]=useState([])
+  const [Filerrooms,setFilterRooms]=useState([])
+
 
   const getHotels=async()=>{
-    const hotelss= axios.get('http://192.168.1.154:3000/hotels').then(resp=>{
-      
+    const hotelss= axios.get('http://192.168.1.48:3000/hotels').then(resp=>{
+    
       setHotels(resp.data.records)
 
     })
  
   }
   const getRooms=async()=>{
-    const rooms= axios.get('http://192.168.1.154:3000/rooms').then(resp=>{
+    const rooms= axios.get('http://192.168.1.48:3000/rooms').then(resp=>{
 
       setRooms(resp.data.records)
 
@@ -48,10 +50,40 @@ const Home = ({navigation,route }) => {
  
   }
 useEffect(()=>{
-getHotels()
-getRooms()
-console.log(hotels);
-},[]) 
+ console.log({selectedValue});
+ console.log({selectedValue2});
+
+ if(selectedValue=='tout' && selectedValue2=='tout'){
+  getHotels()
+  getRooms()
+  setActiveFilter(false)
+
+ }
+ else if(selectedValue=='tout' && selectedValue2!=='tout'){
+  setActiveFilter(true)
+
+  var newArray = rooms.filter(function (room) {
+    return room.nb_adulte == selectedValue2 ;})
+    setFilterRooms(newArray)
+ }
+ 
+ else if(selectedValue!=='tout' && selectedValue2=='tout'){
+  setActiveFilter(true)
+
+  var newArray = rooms.filter(function (room) {
+    return room.hotel_id.location == selectedValue ;})
+    setFilterRooms(newArray)
+ }
+ else{
+  setActiveFilter(true)
+
+  var newArray = rooms.filter(function (room) {
+    return room.hotel_id.location == selectedValue && room.nb_adulte == selectedValue2 ;})
+    setFilterRooms(newArray)
+ }
+
+
+},[selectedValue,selectedValue2]) 
  
 
   const renderDestination = ({item, index}) => {
@@ -144,20 +176,28 @@ console.log(hotels);
             style={{ height: 50, width: 130 }}
             onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
           >
-            <Picker.Item label="Sousse" value="sousse" />
-            <Picker.Item label="Madrid" value="madrid" />
+            <Picker.Item label="tout" value="tout" />
+
+            <Picker.Item label="Sousse" value="Sousse" />
+            <Picker.Item label="Madrid" value="Madrid" />
+            {/* {
+              hotels.map(hotel=>(
+                <Picker.Item label={hotel.loca} value={hotel.loca} />
+              ))
+            } */}
           </Picker>
           
         
           
 
           <Picker
-            selectedValue={selectedValue}
+            selectedValue={selectedValue2}
             style={{ height: 50, width: 150 }}
-            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+            onValueChange={(itemValue, itemIndex) => setSelectedValue2(itemValue)}
           >
-            <Picker.Item label="1 Adulte" value="1 adulte" />
-            <Picker.Item label="2 Adultes" value="2 adulte" />
+            <Picker.Item label="tout" value="tout" />
+            <Picker.Item label="1 Adulte" value="1" />
+            <Picker.Item label="2 Adultes" value="2" />
           </Picker>
             </View>
 
@@ -195,14 +235,27 @@ console.log(hotels);
           Room
         </Text>
 
-        <FlatList
+{
+ !filterActive?(<FlatList
+  columnWrapperStyle={{justifyContent: 'space-around'}}
+  numColumns={2}
+ showsHorizontalScrollIndicator={false}
+ data={rooms}
+ keyExtractor={(item) => item.id.toString()}
+ renderItem={(item, index) => renderRoom(item, index)}
+/>):(<FlatList
            columnWrapperStyle={{justifyContent: 'space-around'}}
            numColumns={2}
           showsHorizontalScrollIndicator={false}
-          data={rooms}
+          data={Filerrooms}
           keyExtractor={(item) => item.id.toString()}
           renderItem={(item, index) => renderRoom(item, index)}
-        />
+        />)
+}
+    
+  
+
+        
 
           
           </View>

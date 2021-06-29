@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,15 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import {COLORS, images, SIZES, FONTS, styles} from '../constants';
 
-const Paiement = ({navigation}) => (
+const Paiement = ({route,navigation}) => {
+  const data = route.params.room
+  const [room,setRoom]=useState([])
+  useEffect(()=>{
+setRoom(data)
+  },[])
+
+  
+  return(
   <SafeAreaView style={styles.container}>
     <View style={{flex: .5, alignItems: 'flex-start', justifyContent: 'center'}}>
     <Image
@@ -84,6 +92,6 @@ const Paiement = ({navigation}) => (
     </View>
   </SafeAreaView>
 
-);
+);}
 
 export default Paiement;
