@@ -4,9 +4,10 @@ import {AppLoading} from 'expo';
 import {useFonts} from 'expo-font';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import { AppProvider } from "./src/context/AppContext";
 
 // screens
-import {Onboarding, DestinationDetail , Register , Account , Paiement , Extra} from './src/screens';
+import {Onboarding, DestinationDetail , Register , Account , Paiement , Extra,BookingDetails} from './src/screens';
 
 // tabs
 import Tabs from './src/navigation/tabs';
@@ -34,6 +35,7 @@ export default function App() {
     return <AppLoading />;
   } else {
     return (
+      <AppProvider>
       <NavigationContainer style={theme}>
         <Stack.Navigator initialRouteName="Home">
           {/* screen  */}
@@ -71,6 +73,8 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name="Account" component={Account} />
         <Stack.Screen options={{headerShown:false}} name="Paiement" component={Paiement} />
         <Stack.Screen options={{headerShown:false}} name="Extra" component={Extra} />
+        <Stack.Screen options={{headerShown:false}} name="BookingDetails" component={BookingDetails} />
+
 
           <Stack.Screen
             name="DestinationDetail"
@@ -121,6 +125,7 @@ export default function App() {
 
         </Stack.Navigator>
       </NavigationContainer>
+      </AppProvider>
     );
   }
 }

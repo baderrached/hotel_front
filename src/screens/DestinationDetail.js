@@ -2,6 +2,10 @@ import React,{useEffect,useState} from 'react';
 import {View, Text, Image, TouchableOpacity,ScrollView} from 'react-native';
 import {COLORS, SIZES, FONTS, styles, images, icons} from '../constants';
 import {LinearGradient} from 'expo-linear-gradient';
+import DateRangePicker from "react-native-daterange-picker";
+import moment from "moment";
+import { Modal, Portal, Provider } from 'react-native-paper';
+import { useIsFocused } from "@react-navigation/native";
 
 const StarReview = ({rate}) => { 
   const stars = [];
@@ -66,63 +70,118 @@ const IconLabel = ({icon, label}) => (
 );
 
 const DestinationDetail = ({route,navigation}) =>{ 
+  const [visible, setVisible] = React.useState(false);
+  const containerStyle = {
+    position: 'absolute',
+    top:"10%",
+    height:300,
+    backgroundColor: 'white', padding: 20};
+    const isFocused = useIsFocused();
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
   const [room,setRoom]=useState([])
+  const [startDate,setStartDate]=useState("")
+  const [endDate,setEndDate]=useState("")
+  const [open,setopen]=useState(false)
+  const [displayedDate,setDisplayedDate]=useState(moment())
+
+  const setDates=(dates)=>{
+    if(dates.startDate){
+        setStartDate(dates.startDate)
+    }
+    if(dates.endDate){
+        setEndDate(dates.endDate)
+        setopen(!open)
+        setVisible(!visible)
+
+          navigation.navigate({
+                name: 'Paiement',
+                params: {  room:room,startDate:startDate.toString(),endDate:endDate.toString()},
+            
+              });
+
+    }else if(dates.displayedDate){
+      setDisplayedDate(dates.displayedDate)
+    }
+    console.log(dates);
+   
+}
   useEffect(()=>{
      const data = route.params.room
      setRoom(data);
     console.log(data);
+    setStartDate('')
+    setEndDate('');
   
-  },[])
+  },[isFocused])
+  
   return(
   <View style={styles.container}>
     {/* header */}
+   
+   
     <View style={{flex: 2}}>
       <Image
         source={{uri:room.image}}
         resizeMode="cover"
         style={{height: '80%', width: '100%'}}
       />
+{
+!open &&(
+  <View
+  style={[
+    {
+      position: 'absolute',
+      bottom: '5%',
+      left: '5%',
+      right: '5%',
+      borderRadius: 15,
+      padding: SIZES.padding,
+      backgroundColor: COLORS.white,
+    },
+    styles.shadow,
+  ]}>
+  <View style={{flexDirection: 'row'}}>
+    <View style={styles.shadow}>
+      <Image
+        source={{uri:room.image}}
 
-      <View
-        style={[
-          {
-            position: 'absolute',
-            bottom: '5%',
-            left: '5%',
-            right: '5%',
-            borderRadius: 15,
-            padding: SIZES.padding,
-            backgroundColor: COLORS.white,
-          },
-          styles.shadow,
-        ]}>
-        <View style={{flexDirection: 'row'}}>
-          <View style={styles.shadow}>
-            <Image
-              source={{uri:room.image}}
+        resizeMode="cover"
+        style={{width: 70, height: 70, borderRadius: 15}}
+      />
+    </View>
+    <View
+      style={{
+        marginHorizontal: SIZES.radius,
+        justifyContent: 'space-around',
+      }}>
+      <Text style={{...FONTS.h3}}>{room.room_name}</Text>
+      {/* <Text style={{color: COLORS.gray, ...FONTS.body3}}>France</Text> */}
+      <StarReview rate={3.5} />
+    </View>
+  </View>
 
-              resizeMode="cover"
-              style={{width: 70, height: 70, borderRadius: 15}}
-            />
-          </View>
-          <View
-            style={{
-              marginHorizontal: SIZES.radius,
-              justifyContent: 'space-around',
-            }}>
-            <Text style={{...FONTS.h3}}>{room.room_name}</Text>
-            {/* <Text style={{color: COLORS.gray, ...FONTS.body3}}>France</Text> */}
-            <StarReview rate={3.5} />
-          </View>
-        </View>
-
-        <View style={{marginTop: SIZES.radius}}>
-          <Text style={{color: COLORS.gray, ...FONTS.body3}}>
-         {room.descreption}
-          </Text>
-        </View>
-      </View>
-
+  <View style={{marginTop: SIZES.radius}}>
+    <Text style={{color: COLORS.gray, ...FONTS.body3}}>
+   {room.descreption}
+    </Text>
+  </View>
+</View>
+)
+}
+     
+      <DateRangePicker
+          onChange={setDates}
+          endDate={endDate}
+          startDate={startDate}
+          displayedDate={displayedDate}
+          range
+          open={open}
+          presetButtons
+          dayHeaders
+          
+        />
+      
       {/* Header Button */}
       <View
         style={{
@@ -200,11 +259,14 @@ const DestinationDetail = ({route,navigation}) =>{
             onPress={() => {
 
 
-              navigation.navigate({
-                name: 'Paiement',
-                params: {  room:room },
+              // navigation.navigate({
+              //   name: 'BookingDetails',
+              //   params: {  room:room },
             
-              });
+              // });
+              // setopen(!open)
+              showModal()
+              setopen(!open)
             }}>
             <LinearGradient
               style={[
@@ -218,9 +280,10 @@ const DestinationDetail = ({route,navigation}) =>{
               colors={['#46aeff', '#5884ff']}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}>
-              <Text style={{color: COLORS.white, ...FONTS.h2}}>BOOKING</Text>
+              <Text style={{color: COLORS.white, ...FONTS.h2}}>BOOK</Text>
             </LinearGradient>
           </TouchableOpacity>
+          
         </View>
       </LinearGradient>
     </View>
