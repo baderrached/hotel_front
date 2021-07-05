@@ -23,7 +23,7 @@ const Card=()=>(
             <View
               style={styless.card}
               onPress={() => {
-                this.clickEventListener(item);
+               this.clickEventListener(item);
               }}
             >
               <Image
@@ -41,14 +41,10 @@ const Card=()=>(
                   <TouchableOpacity style={styless.followButton}
                   
                   onPress={() =>{
-console.log('pressed');
-                  }
-                    // setCart((cart)=> [
-                    //   ...cart,
-                    //   "India",
-                    // ]);
-                    // setCart(cart.push('aa'))
-                }
+
+                  
+                    console.log('test')
+                }}
                   >
                     <Text style={styless.followButtonText}>Add to card</Text>
                   </TouchableOpacity>
