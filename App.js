@@ -4,6 +4,7 @@ import AppLoading from 'expo-app-loading';
 import {useFonts} from 'expo-font';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { AppProvider } from "./src/screens/AppContext";
 
 // screens
 import {Onboarding, DestinationDetail , Register , Account , Paiement , Extra} from './src/screens';
@@ -35,6 +36,7 @@ export default function App() {
     return (<AppLoading/>);
   } else {
     return (
+      <AppProvider>
       <NavigationContainer style={theme}>
         <Stack.Navigator initialRouteName="Home">
           {/* screen  */}
@@ -124,6 +126,7 @@ export default function App() {
 
         </Stack.Navigator>
       </NavigationContainer>
+      </AppProvider>
     );
   }
 }
