@@ -20,6 +20,7 @@ const theme = {
 };
 
 import {COLORS, SIZES, icons} from './src/constants';
+import Card from './src/screens/CardScreen';
 
 const Stack = createStackNavigator();
 
@@ -71,6 +72,8 @@ export default function App() {
         <Stack.Screen options={{headerShown:false}} name="Account" component={Account} />
         <Stack.Screen options={{headerShown:false}} name="Paiement" component={Paiement} />
         <Stack.Screen options={{headerShown:false}} name="Extra" component={Extra} />
+        <Stack.Screen options={{headerShown:false}} name="Card" component={Card} />
+
 
           <Stack.Screen
             name="DestinationDetail"

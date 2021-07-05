@@ -2,7 +2,7 @@ import React from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import {Extra, Home} from '../screens';
+import {Card, Extra, Home} from '../screens';
 import {Account} from '../screens';
 import {Reservation} from '../screens';
 import {icons, COLORS} from '../constants';
@@ -69,7 +69,7 @@ const Tabs = () => (
     <Tab.Screen name="Home" component={Home} />
     {/* <Tab.Screen name="Search" component={Home} /> */}
     <Tab.Screen name="Reservation" component={Extra} />
-    <Tab.Screen name="Account"  component={Account} />
+    <Tab.Screen name="Account"  component={Card} />
   </Tab.Navigator>
 );
 

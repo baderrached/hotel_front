@@ -34,7 +34,7 @@ const [filterActive,setActiveFilter]=useState(false)
 
 
   const getHotels=async()=>{
-    const hotelss= axios.get('http://192.168.1.48:3000/hotels').then(resp=>{
+    const hotelss= axios.get('http://192.168.1.16:3000/hotels').then(resp=>{
     
       setHotels(resp.data.records)
 
@@ -42,7 +42,7 @@ const [filterActive,setActiveFilter]=useState(false)
  
   }
   const getRooms=async()=>{
-    const rooms= axios.get('http://192.168.1.48:3000/rooms').then(resp=>{
+    const rooms= axios.get('http://192.168.1.16:3000/rooms').then(resp=>{
 
       setRooms(resp.data.records)
 

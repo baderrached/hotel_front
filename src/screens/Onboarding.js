@@ -18,7 +18,7 @@ const Onboarding = ({navigation}) => {
   const [password,setPassword]=useState('');
 const submit=async()=>{
 
-const post=await axios.post('http://192.168.1.48:3000/login',{
+const post=await axios.post('http://192.168.1.16:3000/login',{
   "username":username,
   "password":password
 })

@@ -70,7 +70,8 @@ export const styles = StyleSheet.create({
   container: {
     flex: 2,
     backgroundColor: COLORS.white,
-    marginTop:30
+    marginTop:30,
+  
   },
   shadow: {
     shadowColor: '#000',
