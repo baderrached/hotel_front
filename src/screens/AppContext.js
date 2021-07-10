@@ -1,12 +1,15 @@
 import React,{useState,createContext} from 'react';
 export const AppCont=createContext();
 export const AppProvider=(props)=>{
-    const [cart,setCart]=useState([1])
+    const [cart,setCart]=useState([])
 
-    const counts = {};
-    const sampleArray = ['a', 'a', 'b', 'c'];
-    cart.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
-    console.log(counts)
+    counter = {}
+
+    cart.forEach(function(obj) {
+    obj.count=(counter[obj.name] || 0) + 1
+})
+    console.log(counter)
+    // console.log(Object.keys(ca).length);
     return(
         <AppCont.Provider value={[cart,setCart]}>
                 {props.children}

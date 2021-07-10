@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import {
   View,
   Text,
@@ -8,64 +8,101 @@ import {
   Image,
   ScrollView,
   TextInput,
+  FlatList,
+  ToastAndroid
 } from 'react-native';
 
 import {LinearGradient} from 'expo-linear-gradient';
-
+import { AppCont } from "./AppContext";
+import axios from 'axios'
 import {COLORS, images, SIZES, FONTS, styles} from '../constants';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const Card = ({route,navigation}) => {
   
+  var [cart, setCart] = useContext(AppCont);
+  const Remove=(item)=>{
+    var index = cart.indexOf(item);
+    let panier;
+    console.log(cart.length==1);
+
+    if(index==0 && cart.length==1){
+      setCart([])
+    }
+    else if (index > -1) { //Make sure item is present in the array, without if condition, -n indexes will be considered from the end of the array.
+      setCart(cart.splice(index, 1))
+      console.log(index);
+
+    }
+    
+  }
+  const submit=async()=>{
+    console.log(cart);
+    const order={
+      "user_id":123,
+      "room_id":1,
+      "order":cart
+    }
+    const CreateOrder=await axios.post('http://192.168.1.15:3000/CreateOrder',order)
+    setCart([])
+    setAlert(!alert)
   
+  }
+  useEffect((
+    
+  )=>{},[cart])
+  const [alert,setAlert]=useState(false)
   return(
-  <SafeAreaView style={styless.container}>
+  <View style={styless.container}>
+     <AwesomeAlert
+          show={alert}
+          showProgress={false}
+          title="AwesomeAlert"
+          message="I have a message for you!"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="No, cancel"
+          confirmText="Yes, delete it"
+          confirmButtonColor="#DD6B55"
+          onCancelPressed={() => {
+setAlert(!alert)          }}
+          onConfirmPressed={() => {
+submit()          }}
+        />
       <Text style={styless.title} > Submit your order please </Text>
    <ScrollView style={{backgroundColor:"#FFFFFF"}}>
-        {/* <FlatList 
+        <FlatList 
           style={styless.contentList}
           columnWrapperStyle={styless.listContainer}
-          data={this.state.data}
+          data={cart}
           keyExtractor= {(item) => {
             return item.id;
           }}
           renderItem={({item}) => {
-          return ( */}
-            <TouchableOpacity style={styless.card} onPress={() => {this.clickEventListener(item)}}>
-              <Image style={styless.image} source={{uri: 'https://french-iceberg.com/wp-content/uploads/2021/05/French-Taco-1200x675.jpg'}}/>
-              <View style={styless.cardContent}>
-                <Text style={styless.name}>Ftour </Text>
-                <Text style={styless.count}>Descreption</Text>
-                <TouchableOpacity style={styless.followButton}>
-                <TextInput
-        style={styless.followButtonText}
-       
-        value='2'
-        placeholder="useless placeholder"
-        keyboardType="numeric"
-      /> 
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-
+          return (
             <TouchableOpacity style={styless.card} onPress={() => {this.clickEventListener(item)}}>
             <Image style={styless.image} source={{uri: 'https://french-iceberg.com/wp-content/uploads/2021/05/French-Taco-1200x675.jpg'}}/>
-              <View style={styless.cardContent}>
-                <Text style={styless.name}>Ftour </Text>
-                <Text style={styless.count}>Descreption</Text>
-                <TouchableOpacity style={styless.followButton}>
-                <TextInput
-        style={styless.followButtonText}
-       
-        value='1'
-        placeholder="useless placeholder"
-        keyboardType="numeric"
-      /> 
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
+            <View style={styless.cardContent}>
+              <Text style={styless.name}>{item.name} </Text>
+              <Text style={styless.count}>{item.description}</Text>
+              <TouchableOpacity style={styless.followButton} onPress={()=>{
+                Remove(item)
+              }}
+              >
+              <Text style={styless.followButtonText}>Remove from cart</Text>
+        
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+          )}}></FlatList>
+          
+
+     
+          
              
-             
-              <View style={{alignItems :'center' , paddingTop:15 }}> 
+              <View style={{alignItems :'center'}}> 
             <TouchableOpacity
                 style={[
                 styles.shadow,
@@ -78,7 +115,7 @@ const Card = ({route,navigation}) => {
                 },
                 ]}
                 onPress={()=>{
-                submit()
+             setAlert(!alert)
                 }}>
                 <LinearGradient
                 style={{
@@ -98,7 +135,7 @@ const Card = ({route,navigation}) => {
           
           {/* }}/> */}
       </ScrollView>
-  </SafeAreaView>
+  </View>
 
 );}
 
@@ -106,7 +143,7 @@ const styless = StyleSheet.create({
     container:{
         flex: 2,
         backgroundColor: COLORS.white,
-        marginTop:30,
+        
     
     },
     contentList:{
@@ -167,7 +204,7 @@ const styless = StyleSheet.create({
     followButton: {
       marginTop:10,
       height:35,
-      width:100,
+      width:"80%",
       padding:10,
       flexDirection: 'row',
       justifyContent: 'center',
@@ -176,6 +213,8 @@ const styless = StyleSheet.create({
       backgroundColor: "violet",
       borderWidth:1,
       borderColor:"#dcdcdc",
+  
+      alignSelf:'center'
     },
     followButtonText:{
       color: "#dcdcdc",

@@ -9,16 +9,18 @@ import {
   FlatList,
   ScrollView
 } from "react-native";
-
+import { Badge, Icon, withBadge ,Header,BadgedIcon} from 'react-native-elements'
+import CardScreen from './CardScreen'
 import { LinearGradient } from "expo-linear-gradient";
 import { Tab, TabView } from "react-native-elements";
 import { COLORS, images, SIZES, FONTS, styles } from "../constants";
 import { AppCont } from "./AppContext";
 import InputSpinner from "react-native-input-spinner";
+import axios from "axios";
 
 const Extra = () => {
   var [cart, setCart] = useContext(AppCont);
-const Card=()=>(
+const Card=(item)=>(
   
             <View
               style={styless.card}
@@ -43,10 +45,12 @@ const Card=()=>(
                   onPress={() =>{
 
                   
-                    console.log('test')
+                    setCart([...cart,item])
                 }}
                   >
+                    <View>
                     <Text style={styless.followButtonText}>Add to card</Text>
+                    </View>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -56,18 +60,28 @@ const Card=()=>(
 )
   // const Tab = createMaterialTopTabNavigator();
   const [index, setIndexx] = useState(0);
-  const data=[1,3,4,5,6]
+  const [data,setData]=useState([])
+  const getExtra=async()=>{
+axios.get('http://192.168.1.15:3000/extra').then((Response)=>{
+  setData(Response.data)
+})
+  }
   const setIndex = () => {
     // setIndexx(0)
     alert(index);
   };
   useEffect(() => {
-    console.log(cart)
-  }, [index,cart]);
-  return (
-    <SafeAreaView style={styles.container}>
+    getExtra()
+    console.log(cart);
+  }, []);
+  const BadgedIcon = withBadge(cart.length)(Icon);
+
+ return(
+    <View style={styles.container}>
+     
       <Tab
         value={index}
+        disableIndicator
         onChange={(e) => {
           setIndexx(e);
         }}
@@ -86,30 +100,87 @@ const Card=()=>(
           buttonStyle={{ backgroundColor: "white" }}
         />
         <Tab.Item
-          title="cart"
+          title={<>
+        <BadgedIcon type="Entypo" name="shopping-cart"/>
+       
+  </>
+          }
           variant={"primary"}
           titleStyle={{ color: "black", fontSize: 12 }}
           buttonStyle={{ backgroundColor: "white" }}
         />
       </Tab>
 
-      <TabView value={index}>
-        <TabView.Item style={{ width: "100%" }}>
-<FlatList 
-          data={data}
+ {
+   index==0&& (
+    <FlatList 
+    data={data}
+   
+    renderItem={({item}) => Card(item)}/>
+   )
+ }
+ {
+index==1 && (
+  <FlatList 
+  data={data}
+ 
+  renderItem={({item}) => {
+  return (<Card/>)}}/>
+ )
+ }
+ {
+index==2 && (
+  <CardScreen/>
+ )
+ }
+    </View>
+  )
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <Tab
+//         value={index}
+//         onChange={(e) => {
+//           setIndexx(e);
+//         }}
+//       >
+//         <Tab.Item
+//           type={"clear"}
+//           title="Cuisine w boissons"
+//           variant={"primary"}
+//           titleStyle={{ color: "black", fontSize: 12 }}
+//           buttonStyle={{ backgroundColor: "white" }}
+//         />
+//         <Tab.Item
+//           title="Gratuité"
+//           variant={"primary"}
+//           titleStyle={{ color: "black", fontSize: 12 }}
+//           buttonStyle={{ backgroundColor: "white" }}
+//         />
+//         <Tab.Item
+//           title="cart"
+//           variant={"primary"}
+//           titleStyle={{ color: "black", fontSize: 12 }}
+//           buttonStyle={{ backgroundColor: "white" }}
+//         />
+//       </Tab>
+
+//       <TabView value={index}>
+//         <TabView.Item style={{ width: "100%" }}>
+// <FlatList 
+//           data={data}
          
-          renderItem={({item}) => {
-          return (<Card/>)}}/>
+//           renderItem={({item}) => {
+//           return (<Card/>)}}/>
           
-        </TabView.Item>
-        <TabView.Item style={{ width: "100%" }}>
-          <View style={styless.container}>
+//         </TabView.Item>
+//         <TabView.Item style={{ width: "100%" }}>
+//           <View style={styless.container}>
          
-          </View>
-        </TabView.Item>
-      </TabView>
-    </SafeAreaView>
-  );
+//           </View>
+//         </TabView.Item>
+//       </TabView>
+//     </SafeAreaView>
+//   );
 };
 
 const styless = StyleSheet.create({
@@ -148,8 +219,7 @@ const styless = StyleSheet.create({
     shadowRadius: 7.49,
     elevation: 12,
 
-    // marginLeft: 20,
-    // marginRight: 30,
+    marginLeft: 2 ,// marginRight: 30,
     backgroundColor: "white",
     padding: 10,
     flexDirection: "row",
