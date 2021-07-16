@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { Badge, Icon, withBadge ,Header,BadgedIcon} from 'react-native-elements'
 import CardScreen from './CardScreen'
@@ -31,12 +32,12 @@ const Card=(item)=>(
               <Image
                 style={styless.image}
                 source={{
-                  uri: "https://french-iceberg.com/wp-content/uploads/2021/05/French-Taco-1200x675.jpg",
+                  uri: item.image,
                 }}
               />
               <View style={{marginRight:30}}>
-                <Text>ftour</Text>
-                <Text>Description</Text>
+                <Text>{item.name}</Text>
+                <Text>{item.descreption}</Text>
 
                 <View style={{ flexDirection: "column" }}>
                  
@@ -61,20 +62,21 @@ const Card=(item)=>(
   // const Tab = createMaterialTopTabNavigator();
   const [index, setIndexx] = useState(0);
   const [data,setData]=useState([])
+  const [user,setUser]=useState([])
+  const [room,setRoom]=useState([])
   const getExtra=async()=>{
-axios.get('http://192.168.1.15:3000/extra').then((Response)=>{
+axios.get('http://192.168.1.12:3000/extra').then((Response)=>{
   setData(Response.data)
 })
   }
-  const setIndex = () => {
-    // setIndexx(0)
-    alert(index);
-  };
+
+
   useEffect(() => {
     getExtra()
     console.log(cart);
   }, []);
   const BadgedIcon = withBadge(cart.length)(Icon);
+
 
  return(
     <View style={styles.container}>
@@ -135,53 +137,10 @@ index==2 && (
  }
     </View>
   )
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <Tab
-//         value={index}
-//         onChange={(e) => {
-//           setIndexx(e);
-//         }}
-//       >
-//         <Tab.Item
-//           type={"clear"}
-//           title="Cuisine w boissons"
-//           variant={"primary"}
-//           titleStyle={{ color: "black", fontSize: 12 }}
-//           buttonStyle={{ backgroundColor: "white" }}
-//         />
-//         <Tab.Item
-//           title="Gratuité"
-//           variant={"primary"}
-//           titleStyle={{ color: "black", fontSize: 12 }}
-//           buttonStyle={{ backgroundColor: "white" }}
-//         />
-//         <Tab.Item
-//           title="cart"
-//           variant={"primary"}
-//           titleStyle={{ color: "black", fontSize: 12 }}
-//           buttonStyle={{ backgroundColor: "white" }}
-//         />
-//       </Tab>
 
-//       <TabView value={index}>
-//         <TabView.Item style={{ width: "100%" }}>
-// <FlatList 
-//           data={data}
-         
-//           renderItem={({item}) => {
-//           return (<Card/>)}}/>
-          
-//         </TabView.Item>
-//         <TabView.Item style={{ width: "100%" }}>
-//           <View style={styless.container}>
-         
-//           </View>
-//         </TabView.Item>
-//       </TabView>
-//     </SafeAreaView>
-//   );
-};
+}
+;
+
 
 const styless = StyleSheet.create({
   container: {

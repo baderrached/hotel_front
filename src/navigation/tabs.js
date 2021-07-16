@@ -6,6 +6,7 @@ import {Card, Extra, Home} from '../screens';
 import {Account} from '../screens';
 import {Reservation} from '../screens';
 import {icons, COLORS} from '../constants';
+import { Badge, Icon, withBadge ,Header,BadgedIcon} from 'react-native-elements'
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +24,12 @@ const tabOptions = {
     elevation: 21,
   },
 };
-
+const Logout=()=>{
+  // alert('noo')
+  return(
+    <></>
+  )
+}
 const Tabs = () => (
   <Tab.Navigator
     tabBarOptions={tabOptions}
@@ -63,13 +69,15 @@ const Tabs = () => (
                 style={{tintColor: tintColor, height: 30, width: 40}}
               />
             );
+           
         }
       },
     })}>
     <Tab.Screen name="Home" component={Home} />
     {/* <Tab.Screen name="Search" component={Home} /> */}
-    <Tab.Screen name="Reservation" component={Extra} />
-    <Tab.Screen name="Account"  component={Card} />
+    <Tab.Screen name="Reservation" component={Reservation} />
+    <Tab.Screen name="Account"  component={Account} />
+
   </Tab.Navigator>
 );
 

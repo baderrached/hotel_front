@@ -19,6 +19,8 @@ export const train = require('../assets/icons/train_icon.png');
 export const user = require('../assets/icons/user_icon.png');
 export const villa = require('../assets/icons/villa_icon.png');
 export const wind = require('../assets/icons/wind_icon.png');
+export const logout = require('../assets/icons/logout.png');
+
 
 export default {
   airplane,
@@ -42,4 +44,5 @@ export default {
   user,
   villa,
   wind,
+  logout
 };

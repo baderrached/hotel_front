@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
+  AsyncStorage
 } from 'react-native';
 
 import {LinearGradient} from 'expo-linear-gradient';
@@ -18,14 +19,25 @@ const Onboarding = ({navigation}) => {
   const [password,setPassword]=useState('');
 const submit=async()=>{
 
-const post=await axios.post('http://192.168.1.15:3000/login',{
+const post=await axios.post('http://192.168.1.12:3000/login',{
   "username":username,
   "password":password
 })
 if (post.data.error==0){
+  try {
+    console.log(JSON.stringify(post.data.user));
+    await AsyncStorage.setItem(
+      'user',
+      JSON.stringify(post.data.user)
+    );
    navigation.navigate('Home')
 
+  } catch (error) {
+    // Error saving data
+  }
+
 }else{
+  alert('wrong username/password')
   console.log('erreur');
 }
 }

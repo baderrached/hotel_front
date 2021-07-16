@@ -41,9 +41,9 @@ const Card = ({route,navigation}) => {
     const order={
       "user_id":123,
       "room_id":1,
-      "order":cart
+      "orders":cart
     }
-    const CreateOrder=await axios.post('http://192.168.1.15:3000/CreateOrder',order)
+    const CreateOrder=await axios.post('http://192.168.1.12:3000/CreateOrder',order)
     setCart([])
     setAlert(!alert)
   
@@ -57,14 +57,14 @@ const Card = ({route,navigation}) => {
      <AwesomeAlert
           show={alert}
           showProgress={false}
-          title="AwesomeAlert"
-          message="I have a message for you!"
+          title="Order"
+          message="Confirm Order?"
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           showCancelButton={true}
           showConfirmButton={true}
-          cancelText="No, cancel"
-          confirmText="Yes, delete it"
+          cancelText="No"
+          confirmText="Yes"
           confirmButtonColor="#DD6B55"
           onCancelPressed={() => {
 setAlert(!alert)          }}

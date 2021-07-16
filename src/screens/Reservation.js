@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component ,useState,useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,34 +9,78 @@ import {
   Dimensions,
   Alert,
   ScrollView,
-  SafeAreaView
+  SafeAreaView,
+  AsyncStorage
 } from 'react-native';
 import { images } from '../constants';
 import { rooms } from '../constants/data';
-
+import axios from 'axios'
 
   const Reservation = ({navigation}) => {
+const [user,setUser]=useState()
+const [room,setRoom]=useState({
+  allrooms:[]
+})
 
-  
+    const getUserRoom=async()=>{
+      let usssername=await AsyncStorage.getItem('user')
+      console.log(usssername);
+      usssername=JSON.parse(usssername);
+      setUser(usssername);
+      axios.get(`http://192.168.1.12:3000/findRoom/${usssername.id}`).then((Response)=>{
+        console.log(Response.data);
+        setRoom(Response.data)
+        
+    })
+    }
+    useEffect(()=>{
+      getUserRoom()
+    },[])
     return (
       <SafeAreaView style={styles.container}>
         <FlatList 
           style={styles.contentList}
           columnWrapperStyle={styles.listContainer}
-          data={rooms}
+          data={room.allrooms}
           renderItem={({item}) => {
-          return (
-            <TouchableOpacity style={styles.card} 
-            onPress={() => navigation.navigate('Extra')}
-            >
-              <Image style={styles.image} source={item.img}/>
-              <View style={styles.cardContent}>
-                <Text style={styles.name}>Room number</Text>
-                <Text style={styles.count}>Check in</Text>
-               
-              </View>
-            </TouchableOpacity>
-          )}}/>
+            if(  item.to.toString() > new Date().toLocaleDateString() && item.from.toString()< new Date().toLocaleDateString() && item.status!=="0"){
+              return(
+                <TouchableOpacity style={styles.card} 
+                onPress={() => navigation.navigate('Extra')}
+                >
+                  <View style={styles.cardContent}>
+                    <Text style={styles.name}>from :{item.from}</Text>
+                    <Text style={styles.name}>to :{item.to}</Text>
+    
+    
+        <Text style={styles.count}>Check in</Text>
+    
+    
+                   
+                  </View>
+                </TouchableOpacity>
+              )
+            }else{
+return(
+  <TouchableOpacity style={styles.card} 
+  onPress={() => navigation.navigate('Extra')}
+  
+  >
+    <View style={styles.cardContent}>
+      <Text style={styles.name}>from :{item.from}</Text>
+      <Text style={styles.name}>to :{item.to}</Text>
+
+
+<Text style={styles.count}>Check in</Text>
+
+
+     
+    </View>
+  </TouchableOpacity>
+)
+            }
+          }
+}/>
       </SafeAreaView>
     );
           
@@ -53,8 +97,9 @@ const styles = StyleSheet.create({
     marginTop : 25
   },
   cardContent: {
-    marginLeft:20,
-    marginTop:10
+    marginTop:10,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   image:{
     width:90,

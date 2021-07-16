@@ -90,26 +90,24 @@ const DestinationDetail = ({route,navigation}) =>{
         setStartDate(dates.startDate)
     }
     if(dates.endDate){
-        setEndDate(dates.endDate)
-        setopen(!open)
+      setEndDate(dates.endDate)
+        // setopen(!open)
         setVisible(!visible)
-
+console.log(dates.endDate);
           navigation.navigate({
                 name: 'Paiement',
-                params: {  room:room,startDate:startDate.toString(),endDate:endDate.toString()},
+                params: {  room:room,startDate:startDate.toString(),endDate:dates.endDate},
             
               });
 
     }else if(dates.displayedDate){
       setDisplayedDate(dates.displayedDate)
     }
-    console.log(dates);
    
 }
   useEffect(()=>{
      const data = route.params.room
      setRoom(data);
-    console.log(data);
     setStartDate('')
     setEndDate('');
   

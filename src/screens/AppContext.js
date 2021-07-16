@@ -2,6 +2,8 @@ import React,{useState,createContext} from 'react';
 export const AppCont=createContext();
 export const AppProvider=(props)=>{
     const [cart,setCart]=useState([])
+    const [username,setUsername]=useState([])
+    
 
     counter = {}
 

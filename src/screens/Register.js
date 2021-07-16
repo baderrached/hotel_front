@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState}from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,35 @@ import {
 import {LinearGradient} from 'expo-linear-gradient';
 
 import {COLORS, images, SIZES, FONTS, styles} from '../constants';
+import axios from 'axios'
+const Register = ({navigation}) => {
+  const [username,setUsername]=useState('');
+  const [passport,setPassport]=useState('');
+  const [password,setPassword]=useState("");
+  const [confirmPassword,setConfirmPassword]=useState('');
+const submit=async()=>{
+  console.log(username,passport,password);
+  if(username==''){
+    alert('username cannot be empty')
+  }
+  else if(passport==''){
+    alert('passport/CIN cannot be empty')
 
-const Register = ({navigation}) => (
+  }
+  else if(password==''){
+    alert('password cannot be empty')
+
+  }
+  else if(password!==confirmPassword){
+    alert('password and confirm doesn\'t match')
+
+  }
+  else if(username!=='' && passport !=='' && (password==confirmPassword)!==" "){
+    const register=await axios.post(`http://192.168.1.12:3000/register?username=${username}&passpoot=${passport}&password=${password}`)
+    navigation.navigate('OnBoarding')
+  }
+}
+  return (
   <SafeAreaView style={styles.container}>
     <View style={{flex: 0.5, alignItems: 'flex-start', justifyContent: 'center'}}>
     <Image
@@ -28,16 +55,20 @@ const Register = ({navigation}) => (
           <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png'}}/>
           <TextInput style={styles.inputs} 
               placeholder="Username"
-              secureTextEntry={true}
-              underlineColorAndroid='transparent'/>
+              underlineColorAndroid='transparent'
+              value={username}
+              onChangeText={text=>setUsername(text)}
+              />
         </View>
 
         <View style={styles.inputContainer}>
           <Image style={[styles.icon, styles.inputIcon]} source={{uri: 'https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/512x512/plain/user.png'}}/>
           <TextInput style={styles.inputs} 
-              placeholder="Passeport number"
-              secureTextEntry={true}
-              underlineColorAndroid='transparent'/>
+              placeholder="Passeport/CIN number"
+              underlineColorAndroid='transparent'
+               value={passport}
+              onChangeText={e=>setPassport(e)}
+              />
         </View>
 
 
@@ -49,7 +80,10 @@ const Register = ({navigation}) => (
           <TextInput style={styles.inputs}
               placeholder="Password"
               secureTextEntry={true}
-              underlineColorAndroid='transparent'/>
+              underlineColorAndroid='transparent'
+              value={password}
+              onChangeText={e=>setPassword(e)}
+              />
         </View>
 
         <View style={styles.inputContainer}>
@@ -57,7 +91,10 @@ const Register = ({navigation}) => (
           <TextInput style={styles.inputs}
               placeholder="Re-Password"
               secureTextEntry={true}
-              underlineColorAndroid='transparent'/>
+              underlineColorAndroid='transparent'
+              value={confirmPassword}
+              onChangeText={e=>setConfirmPassword(e)}
+/>
         </View>
        
       <TouchableOpacity
@@ -71,7 +108,7 @@ const Register = ({navigation}) => (
             justifyContent: 'center',
           },
         ]}
-        onPress={() => navigation.navigate('Onboarding')}>
+        onPress={() => submit()}>
         <LinearGradient
           style={{
             height: '100%',
@@ -91,5 +128,5 @@ const Register = ({navigation}) => (
     </View>
   </SafeAreaView>
 );
-
+        }
 export default Register;

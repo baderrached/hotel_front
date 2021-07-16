@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { Component,useEffect,useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,8 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  ScrollView,
+  AsyncStorage
  
 } from 'react-native';
 import { TextInput } from 'react-native-paper';
@@ -19,67 +21,135 @@ import {
   destinations,
   
 } from '../constants';
-
+import axios from 'axios'
 const Account = ({navigation}) => {
+  const [user,setUser]=useState('')
+  const [room,setRoom]=useState(true)
+  const getUsername=async () =>{
+    let usssername=await AsyncStorage.getItem('user')
+    usssername=JSON.parse(usssername);
+    setUser(usssername);
+    try {
+      let room=await AsyncStorage.getItem('room')
+      console.log(room==null);
+      if(room==null){
+        setRoom(false)
 
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+
+
+   
+  }
+  const updateObejct=(attr,value)=>{
+    
+    user[attr]=value;
+    console.log(user);
+    setUser(user)
+    console.log(`changed ${attr}`);
+
+  }
+  const udpateUser=async()=>{
+const update=await axios.post(`http://192.168.1.12:3000/update/users/${user.id}`,user)
+alert('profile updated')
+await AsyncStorage.setItem(
+  'user',
+  JSON.stringify(update.data)
+);
+  }
+useEffect(()=>{
+  getUsername()
+  console.log('bb');
+},[])
   
     return (
-      <SafeAreaView style={styles.container}>
-          <View style={{backgroundColor:COLORS.primary}}>
-            <View style={styles.headerContent}>
-                <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar2.png'}}/>
-                <Text style={styles.name}>
-                  John Doe
-                </Text>
-            </View>
-          </View>
-
-          <View style={styles.profileDetail}>
-            <View style={styles.detailContent}>
-              <Text style={styles.title}>Reservation</Text>
-              <Text style={styles.count}>200</Text>
-            </View>
-           
-          </View>
+      <ScrollView style={styles.container}>
+      
 
           <View style={styles.body}>
             <View style={styles.bodyContent}>
             <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
-              placeholder="Full name"
-              secureTextEntry={true}
+              placeholder="username"
+              defaultValue={user.username}
+              disabled
             />
           <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/nolan/40/000000/key.png'}}/>
         </View>
         <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
-              placeholder="Full name"
-              secureTextEntry={true}
+              placeholder="First name"
+              defaultValue={user.first_name}
+              onChangeText={e=>{
+                updateObejct("first_name",e)
+              }}
             />
           <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/nolan/40/000000/key.png'}}/>
         </View>
          <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
-              placeholder="Full name"
-              secureTextEntry={true}
+              placeholder="last name"
+              defaultValue={user.last_name}
+              onChangeText={e=>{
+                updateObejct("last_name",e)
+              }}
             />
           <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/nolan/40/000000/key.png'}}/>
         </View>
         <View style={styles.inputContainer}>
           <TextInput style={styles.inputs}
-              placeholder="Full name"
-              secureTextEntry={true}
+              placeholder="passport/cin"
+              defaultValue={user.passeport_cin}
+              onChangeText={e=>{
+                updateObejct("passeport_cin",e)
+              }}
+            />
+          <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/nolan/40/000000/key.png'}}/>
+        </View>
+        <View style={styles.inputContainer}>
+
+        <TextInput style={styles.inputs}
+              placeholder="password"
+              defaultValue={user.password}
+              secureTextEntry
+              onChangeText={e=>{
+                updateObejct("password",e)
+              }}
             />
           <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/nolan/40/000000/key.png'}}/>
         </View>
 
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonContainer}
+        onPress={() =>udpateUser()}
+        >
           <Text style={styles.loginText}>Update</Text>
         </TouchableOpacity>
+        {
+          room!==false?(
+<TouchableOpacity style={styles.buttonContainer}>
+          <Text style={styles.loginText}>request room service</Text>
+        </TouchableOpacity>
+          ):
+          (<TouchableOpacity style={styles.buttonContainer} disabled>
+          <Text style={styles.loginText}>room service on it's way</Text>
+        </TouchableOpacity>)
+        }
+        
+        <TouchableOpacity style={styles.logoutContainer} onPress={async () =>{
+                  await AsyncStorage.removeItem("username");
+                  navigation.navigate('Onboarding')
+
+        }}>
+          <Text style={styles.loginText}>logout</Text>
+        </TouchableOpacity>
+     
              
             </View>
         </View>
-      </SafeAreaView>
+      </ScrollView>
     );
   }
   export default Account;
@@ -186,6 +256,17 @@ const styles = StyleSheet.create({
     width:250,
     borderRadius:30,
     backgroundColor: "#5390ff",
+  },
+  logoutContainer: {
+    marginTop:10,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+    backgroundColor: "red",
   },
   description:{
     fontSize:20,
