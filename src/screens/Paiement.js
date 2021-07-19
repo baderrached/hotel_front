@@ -54,7 +54,7 @@ _retrieveData()
       'to':route.params.endDate
     }
     let order_request=await axios.post('http://192.168.1.12:3000/Reserve',request)
-    navigation.navigate('Extra')
+    navigation.replace('Home', { screen: 'Reservation' });
   }
   return(
   <SafeAreaView style={styles.container}>

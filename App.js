@@ -7,7 +7,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { AppProvider } from "./src/screens/AppContext";
 
 // screens
-import {Onboarding, DestinationDetail , Register , Account , Paiement , Extra} from './src/screens';
+import {Onboarding, DestinationDetail , Register , Account , Paiement , Extra,Reservation} from './src/screens';
 
 // tabs
 import Tabs from './src/navigation/tabs';
@@ -96,6 +96,8 @@ useEffect(()=>{
         <Stack.Screen options={{headerShown:false}} name="Paiement" component={Paiement} />
         <Stack.Screen options={{headerShown:false}} name="Extra" component={Extra} />
         <Stack.Screen options={{headerShown:false}} name="Card" component={Card} />
+        <Stack.Screen options={{headerShown:false}} name="Reservation" component={Reservation} />
+
 
 
           <Stack.Screen

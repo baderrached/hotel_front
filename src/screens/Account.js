@@ -31,12 +31,7 @@ const Account = ({navigation}) => {
     setUser(usssername);
     try {
       let room=await AsyncStorage.getItem('room')
-      console.log(room==null);
-      if(room==null){
-        setRoom(false)
-
-      }
-
+      
     } catch (error) {
       console.log(error);
     }
@@ -60,8 +55,19 @@ await AsyncStorage.setItem(
   JSON.stringify(update.data)
 );
   }
+  const checkRoomService=async()=>{
+    let check=await axios.get(`http://192.168.1.12:3000/room_requests/${user.id}`)
+    setRoom(check.data.available)
+  }
+  const RequestRommService=async () =>{
+    let request=await axios.post(`http://192.168.1.12:3000/room_requests/${user.id}`)
+    
+   alert(request.data.message)
+    // setRoom(false)
+  }
 useEffect(()=>{
   getUsername()
+  checkRoomService()
   console.log('bb');
 },[])
   
@@ -105,7 +111,10 @@ useEffect(()=>{
               defaultValue={user.passeport_cin}
               onChangeText={e=>{
                 updateObejct("passeport_cin",e)
+
               }}
+              disabled
+
             />
           <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/nolan/40/000000/key.png'}}/>
         </View>
@@ -128,8 +137,8 @@ useEffect(()=>{
           <Text style={styles.loginText}>Update</Text>
         </TouchableOpacity>
         {
-          room!==false?(
-<TouchableOpacity style={styles.buttonContainer}>
+          room?(
+<TouchableOpacity style={styles.buttonContainer} onPress={() =>RequestRommService()}>
           <Text style={styles.loginText}>request room service</Text>
         </TouchableOpacity>
           ):

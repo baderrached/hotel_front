@@ -118,16 +118,22 @@ axios.get('http://192.168.1.12:3000/extra').then((Response)=>{
     <FlatList 
     data={data}
    
-    renderItem={({item}) => Card(item)}/>
-   )
+    renderItem={({item}) => {
+      if(item.price!="0")return Card(item)
+      
+  
+    
+  }
+      }/>)
  }
  {
 index==1 && (
   <FlatList 
   data={data}
  
-  renderItem={({item}) => {
-  return (<Card/>)}}/>
+  renderItem={({item}) => {if(item.price=="0")return Card(item)
+}
+    }/>
  )
  }
  {

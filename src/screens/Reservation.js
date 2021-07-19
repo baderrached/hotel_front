@@ -43,41 +43,41 @@ const [room,setRoom]=useState({
           columnWrapperStyle={styles.listContainer}
           data={room.allrooms}
           renderItem={({item}) => {
-            if(  item.to.toString() > new Date().toLocaleDateString() && item.from.toString()< new Date().toLocaleDateString() && item.status!=="0"){
-              return(
-                <TouchableOpacity style={styles.card} 
-                onPress={() => navigation.navigate('Extra')}
-                >
-                  <View style={styles.cardContent}>
-                    <Text style={styles.name}>from :{item.from}</Text>
-                    <Text style={styles.name}>to :{item.to}</Text>
-    
-    
-        <Text style={styles.count}>Check in</Text>
-    
-    
-                   
-                  </View>
-                </TouchableOpacity>
-              )
+            if(  item.status=="0"){
+      
+        return (
+          <TouchableOpacity style={styles.card} 
+          disabled
+          onPress={() => navigation.navigate('Extra')}
+          >
+            <Image style={styles.image} source={{uri:item.room_id.image}}/>
+            <View style={styles.cardContent}>
+              <Text style={styles.name}>Reservation number : {item.id}</Text>
+              <Text style={styles.count}>from : {item.from}</Text>
+              <Text style={styles.count}>to : {item.to}</Text>
+
+             
+            </View>
+          </TouchableOpacity>
+        
+  )
             }else{
-return(
-  <TouchableOpacity style={styles.card} 
-  onPress={() => navigation.navigate('Extra')}
-  
-  >
-    <View style={styles.cardContent}>
-      <Text style={styles.name}>from :{item.from}</Text>
-      <Text style={styles.name}>to :{item.to}</Text>
+              return (
+                <TouchableOpacity style={styles.card} 
+      
+          onPress={() => navigation.navigate('Extra')}
+          >
+            <Image style={styles.image} source={{uri:item.room_id.image}}/>
+            <View style={styles.cardContent}>
+              <Text style={styles.name}>Reservation number : {item.id}</Text>
+              <Text style={styles.count}>from : {item.from}</Text>
+              <Text style={styles.count}>to : {item.to}</Text>
 
-
-<Text style={styles.count}>Check in</Text>
-
-
-     
-    </View>
-  </TouchableOpacity>
-)
+             
+            </View>
+          </TouchableOpacity>
+              
+        )
             }
           }
 }/>

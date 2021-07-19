@@ -37,7 +37,7 @@ const submit=async()=>{
   }
   else if(username!=='' && passport !=='' && (password==confirmPassword)!==" "){
     const register=await axios.post(`http://192.168.1.12:3000/register?username=${username}&passpoot=${passport}&password=${password}`)
-    navigation.navigate('OnBoarding')
+    navigation.navigate('Onboarding')
   }
 }
   return (
