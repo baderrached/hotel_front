@@ -53,7 +53,11 @@ _retrieveData()
       "from":route.params.startDate,
       'to':route.params.endDate
     }
+<<<<<<< Updated upstream
     let order_request=await axios.post('http://192.168.1.16:3000/Reserve',request)
+=======
+    let order_request=await axios.post('http://192.168.1.184 :3000/Reserve',request)
+>>>>>>> Stashed changes
     navigation.replace('Home', { screen: 'Reservation' });
   }
   return(

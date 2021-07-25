@@ -36,7 +36,11 @@ const submit=async()=>{
 
   }
   else if(username!=='' && passport !=='' && (password==confirmPassword)!==" "){
+<<<<<<< Updated upstream
     const register=await axios.post(`http://192.168.1.16:3000/register?username=${username}&passpoot=${passport}&password=${password}`)
+=======
+    const register=await axios.post(`http://192.168.1.184 :3000/register?username=${username}&passpoot=${passport}&password=${password}`)
+>>>>>>> Stashed changes
     navigation.navigate('Onboarding')
   }
 }
