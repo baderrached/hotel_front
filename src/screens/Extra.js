@@ -18,8 +18,9 @@ import { COLORS, images, SIZES, FONTS, styles } from "../constants";
 import { AppCont } from "./AppContext";
 import InputSpinner from "react-native-input-spinner";
 import axios from "axios";
+import Spa from "./Spa";
 
-const Extra = () => {
+const Extra = ({route,navigation}) => {
   var [cart, setCart] = useContext(AppCont);
 const Card=(item)=>(
   
@@ -65,7 +66,7 @@ const Card=(item)=>(
   const [user,setUser]=useState([])
   const [room,setRoom]=useState([])
   const getExtra=async()=>{
-axios.get('http://192.168.1.16:3000/extra').then((Response)=>{
+axios.get('http://192.168.1.12:3000/extra').then((Response)=>{
   setData(Response.data)
 })
   }
@@ -90,18 +91,24 @@ axios.get('http://192.168.1.16:3000/extra').then((Response)=>{
       >
         <Tab.Item
           type={"clear"}
-          title="Cuisine w boissons"
+          title="Cuisine et boissons"
           variant={"primary"}
-          titleStyle={{ color: "black", fontSize: 12 }}
+          titleStyle={{ color: "black", fontSize: 8 }}
           buttonStyle={{ backgroundColor: "white" }}
         />
         <Tab.Item
           title="Gratuité"
           variant={"primary"}
-          titleStyle={{ color: "black", fontSize: 12 }}
+          titleStyle={{ color: "black", fontSize: 8 }}
           buttonStyle={{ backgroundColor: "white" }}
         />
-        <Tab.Item
+         <Tab.Item
+          title="Spa et restaurant"
+          variant={"primary"}
+          titleStyle={{ color: "black", fontSize: 8 }}
+          buttonStyle={{ backgroundColor: "white" }}
+        />
+        {/* <Tab.Item
           title={<>
         <BadgedIcon type="Entypo" name="shopping-cart"/>
        
@@ -110,11 +117,12 @@ axios.get('http://192.168.1.16:3000/extra').then((Response)=>{
           variant={"primary"}
           titleStyle={{ color: "black", fontSize: 12 }}
           buttonStyle={{ backgroundColor: "white" }}
-        />
+        /> */}
       </Tab>
 
  {
    index==0&& (
+     <>
     <FlatList 
     data={data}
    
@@ -124,21 +132,44 @@ axios.get('http://192.168.1.16:3000/extra').then((Response)=>{
   
     
   }
-      }/>)
+  
+  }/>
+      <TouchableOpacity 
+      onPress={() => {
+        navigation.navigate("Card")
+        // console.log('aa');
+      }}
+      style={{backgroundColor:"violet",justifyContent:'center',alignItems:'center',position:'absolute',height:80,width:80,borderRadius:90,right:10,bottom:10}}>
+      <BadgedIcon type="Entypo" name="shopping-cart"
+      />
+      </TouchableOpacity>
+      </>
+      )
  }
  {
 index==1 && (
+  <>
   <FlatList 
   data={data}
  
   renderItem={({item}) => {if(item.price=="0")return Card(item)
 }
     }/>
+    <TouchableOpacity 
+      onPress={() => {
+        navigation.navigate("Card")
+        // console.log('aa');
+      }}
+      style={{backgroundColor:"violet",justifyContent:'center',alignItems:'center',position:'absolute',height:80,width:80,borderRadius:90,right:10,bottom:10}}>
+      <BadgedIcon type="Entypo" name="shopping-cart"
+      />
+      </TouchableOpacity>
+    </>
  )
  }
  {
 index==2 && (
-  <CardScreen/>
+  <Spa/>
  )
  }
     </View>

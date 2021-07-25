@@ -43,7 +43,7 @@ const Card = ({route,navigation}) => {
       "room_id":1,
       "orders":cart
     }
-    const CreateOrder=await axios.post('http://192.168.1.16:3000/CreateOrder',order)
+    const CreateOrder=await axios.post('http://192.168.1.12:3000/CreateOrder',order)
     setCart([])
     setAlert(!alert)
   

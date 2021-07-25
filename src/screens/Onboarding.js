@@ -19,11 +19,7 @@ const Onboarding = ({navigation}) => {
   const [password,setPassword]=useState('');
 const submit=async()=>{
 
-<<<<<<< Updated upstream
-const post=await axios.post('http://192.168.1.16:3000/login',{
-=======
-const post=await axios.post('http://192.168.1.184 :3000/login',{
->>>>>>> Stashed changes
+const post=await axios.post('http://192.168.1.12:3000/login',{
   "username":username,
   "password":password
 })
