@@ -154,7 +154,7 @@ console.log(dates.endDate);
         justifyContent: 'space-around',
       }}>
       <Text style={{...FONTS.h3}}>{room.room_name}</Text>
-      {/* <Text style={{color: COLORS.gray, ...FONTS.body3}}>France</Text> */}
+      
       <StarReview rate={3.5} />
     </View>
   </View>
@@ -213,7 +213,7 @@ console.log(dates.endDate);
           justifyContent: 'space-between',
           paddingHorizontal: SIZES.padding * 2,
         }}>
-        <IconLabel icon={icons.villa} label="Villa" />
+        <IconLabel icon={icons.villa} label="WIFI" />
         <IconLabel icon={icons.parking} label="Parking" />
         <IconLabel icon={icons.wind} label="20 °C" />
       </View>
@@ -246,7 +246,7 @@ console.log(dates.endDate);
               marginHorizontal: SIZES.padding,
               justifyContent: 'center',
             }}>
-            <Text style={{...FONTS.h1}}>{room.price}$</Text>
+            <Text style={{...FONTS.h1}}>{room.price} TND</Text>
           </View>
           <TouchableOpacity
             style={{

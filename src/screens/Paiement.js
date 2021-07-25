@@ -53,7 +53,7 @@ _retrieveData()
       "from":route.params.startDate,
       'to':route.params.endDate
     }
-    let order_request=await axios.post('http://192.168.1.12:3000/Reserve',request)
+    let order_request=await axios.post('http://192.168.1.16:3000/Reserve',request)
     navigation.replace('Home', { screen: 'Reservation' });
   }
   return(
@@ -74,6 +74,7 @@ _retrieveData()
               placeholder="Card Number"
               value={number}
               underlineColorAndroid='transparent'
+              keyboardType='numeric'
               onChangeText={e=>setNumber(e)}
               />
         </View>
@@ -98,7 +99,7 @@ _retrieveData()
               placeholder="CVV"
               value={cvv}
               onChangeText={e=>setCVV(e)}
-            
+              keyboardType='numeric'
               underlineColorAndroid='transparent'/>
         </View>
        

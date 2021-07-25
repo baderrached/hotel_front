@@ -48,7 +48,7 @@ const Account = ({navigation}) => {
 
   }
   const udpateUser=async()=>{
-const update=await axios.post(`http://192.168.1.12:3000/update/users/${user.id}`,user)
+const update=await axios.post(`http://192.168.1.16:3000/update/users/${user.id}`,user)
 alert('profile updated')
 await AsyncStorage.setItem(
   'user',
@@ -56,11 +56,11 @@ await AsyncStorage.setItem(
 );
   }
   const checkRoomService=async()=>{
-    let check=await axios.get(`http://192.168.1.12:3000/room_requests/${user.id}`)
+    let check=await axios.get(`http://192.168.1.16:3000/room_requests/${user.id}`)
     setRoom(check.data.available)
   }
   const RequestRommService=async () =>{
-    let request=await axios.post(`http://192.168.1.12:3000/room_requests/${user.id}`)
+    let request=await axios.post(`http://192.168.1.16:3000/room_requests/${user.id}`)
     
    alert(request.data.message)
     // setRoom(false)
@@ -69,7 +69,7 @@ useEffect(()=>{
   getUsername()
   checkRoomService()
   console.log('bb');
-},[])
+})
   
     return (
       <ScrollView style={styles.container}>

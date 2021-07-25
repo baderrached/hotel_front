@@ -27,7 +27,7 @@ const [room,setRoom]=useState({
       console.log(usssername);
       usssername=JSON.parse(usssername);
       setUser(usssername);
-      axios.get(`http://192.168.1.12:3000/findRoom/${usssername.id}`).then((Response)=>{
+      axios.get(`http://192.168.1.16:3000/findRoom/${usssername.id}`).then((Response)=>{
         console.log(Response.data);
         setRoom(Response.data)
         

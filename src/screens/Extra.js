@@ -65,7 +65,7 @@ const Card=(item)=>(
   const [user,setUser]=useState([])
   const [room,setRoom]=useState([])
   const getExtra=async()=>{
-axios.get('http://192.168.1.12:3000/extra').then((Response)=>{
+axios.get('http://192.168.1.16:3000/extra').then((Response)=>{
   setData(Response.data)
 })
   }
