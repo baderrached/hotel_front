@@ -9,7 +9,8 @@ import {
   ScrollView,
   TextInput,
   FlatList,
-  ToastAndroid
+  ToastAndroid,
+  AsyncStorage
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import {LinearGradient} from 'expo-linear-gradient';
@@ -17,64 +18,86 @@ import { AppCont } from "./AppContext";
 import axios from 'axios'
 import {COLORS, images, SIZES, FONTS, styles} from '../constants';
 import AwesomeAlert from 'react-native-awesome-alerts';
-const Card=(item,visible)=>{
 
-const showDatePicker = () => {
+const Spa = ({route,navigation}) => {
+const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+const [selected,setSelectedValue]=useState(null);
+const Card=(item,visible)=>{
+  const showDatePicket = (id) => {
+    setSelectedValue(id);
     setDatePickerVisibility(true);
   };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    console.log("A date has been picked: ", date);
-    hideDatePicker();
-  };
-return (
   
-    <View
-      style={styless.card}
-      onPress={() => {
-       this.clickEventListener(item);
-      }}
-    >
-      <Image
-        style={styless.image}
-        source={{
-          uri: item.image,
+    const hideDatePicker = () => {
+      setDatePickerVisibility(false);
+    };
+  
+    const handleConfirm = async (date) => {
+      let d=new Date(date).toLocaleDateString()
+      let t=new Date(date).toLocaleTimeString()
+      let user=await AsyncStorage.getItem('user')
+        user=JSON.parse(user);
+      
+      axios.post(`http://192.168.1.12:3000/spa_restau`,{
+        "user_id":user.id,
+        "day":d,
+        "time":t
+      }).then(res=>{
+        setAlert(true)
+      })
+      hideDatePicker();
+    };
+  return (
+    
+      <View
+        style={styless.card}
+        onPress={() => {
+         this.clickEventListener(item);
         }}
-      />
-      <View style={{marginRight:30}}>
-        <Text style={{alignSelf:'center',fontSize:20}}>{item.name}</Text>
-        {/* <Text>pick date</Text>
-        <Text>pick time</Text> */}
-
-<DateTimePickerModal
-        isVisible={visible}
-        mode="datetime"
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-      />
-        <View style={{ flexDirection: "column" }}>
-         
-          <TouchableOpacity style={styless.followButton}
-          
+      >
+             <AwesomeAlert
+          show={alert}
+          showProgress={false}
+          message="Reservation done"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
         
-          >
-            <View>
-            <Text style={styless.followButtonText}>Reserve</Text>
-            </View>
-          </TouchableOpacity>
+        />
+        <Image
+          style={styless.image}
+          source={{
+            uri: item.image,
+          }}
+        />
+        <View style={{marginRight:30}}>
+          <Text style={{alignSelf:'center',fontSize:20}}>{item.name}</Text>
+          {/* <Text>pick date</Text>
+          <Text>pick time</Text> */}
+  
+  <DateTimePickerModal
+          isVisible={visible}
+          mode="datetime"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
+          <View style={{ flexDirection: "column" }}>
+           
+            <TouchableOpacity style={styless.followButton}
+            onPress={() =>showDatePicket(item.id)}
+          
+            >
+              <View>
+              <Text style={styless.followButtonText}>Reserve</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
-
-   
-)}
-const Spa = ({route,navigation}) => {
-const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
- 
+  
+     
+  )}
 const [spa,setSpa]=useState([])
   const get_spa=async()=>{
       const data=await axios.get('http://192.168.1.12:3000/spa_restau')
