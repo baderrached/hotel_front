@@ -68,7 +68,6 @@ await AsyncStorage.setItem(
 useEffect(()=>{
   getUsername()
   checkRoomService()
-  console.log('bb');
 })
   
     return (

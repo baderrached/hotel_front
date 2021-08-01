@@ -22,6 +22,39 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 const Spa = ({route,navigation}) => {
 const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 const [selected,setSelectedValue]=useState(null);
+const [room,setRoom]=useState(true)
+
+const [user,setUser]=useState('')
+
+const getUsername=async () =>{
+    let usssername=await AsyncStorage.getItem('user')
+    usssername=JSON.parse(usssername);
+    setUser(usssername);
+    try {
+      let room=await AsyncStorage.getItem('room')
+      
+    } catch (error) {
+      console.log(error);
+    }
+
+
+   
+  }
+  const checkRoomService=async()=>{
+    let check=await axios.get(`http://192.168.1.12:3000/room_requests/${user.id}`)
+    setRoom(check.data.available)
+  }
+  const RequestRommService=async () =>{
+    let request=await axios.post(`http://192.168.1.12:3000/room_requests/${user.id}`)
+    
+   console.log(request.data.message)
+    // setRoom(false)
+  }
+  useEffect(() => {
+    getUsername()
+  checkRoomService()
+
+  })
 const Card=(item,visible)=>{
   const showDatePicket = (id) => {
     setSelectedValue(id);
@@ -112,12 +145,25 @@ const [spa,setSpa]=useState([])
   const [alert,setAlert]=useState(false)
   return(
   <View style={styless.container}>
+    {
+          room?(
+<TouchableOpacity style={styless.buttonContainer} onPress={() =>RequestRommService()}>
+          <Text style={styless.loginText}>request room service</Text>
+        </TouchableOpacity>
+          ):
+          (<TouchableOpacity style={styless.buttonContainer} disabled>
+          <Text style={styless.loginText}>room service on it's way</Text>
+        </TouchableOpacity>)
+        }
        <FlatList 
   data={spa}
  
   renderItem={({item}) => (Card(item,isDatePickerVisible)
   )}
+
 />
+
+
   </View>
 
 );}
@@ -151,7 +197,6 @@ const styless = StyleSheet.create({
         width: 0,
         height: 6,
       },
-      marginTop:5,
       marginBottom:5,
       shadowOpacity: 0.37,
       shadowRadius: 7.49,
@@ -199,6 +244,19 @@ const styless = StyleSheet.create({
       color: "#dcdcdc",
       fontSize: 12,
     },
+    buttonContainer: {
+      marginTop:10,
+      marginBottom:0,
+      height:45,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf:'center',
+      marginBottom:20,
+      width:250,
+      borderRadius:30,
+      backgroundColor: "#5390ff",
+    }
   });
 // const styless = StyleSheet.create({
 //     container:{
