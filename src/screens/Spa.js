@@ -19,7 +19,9 @@ import axios from 'axios'
 import {COLORS, images, SIZES, FONTS, styles} from '../constants';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-const Spa = ({route,navigation}) => {
+const Spa = ({route,navigation,roomss}) => {
+const datass = roomss
+
 const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 const [selected,setSelectedValue]=useState(null);
 const [room,setRoom]=useState(true)
@@ -51,10 +53,17 @@ const getUsername=async () =>{
     // setRoom(false)
   }
   useEffect(() => {
-    getUsername()
+    // getUsername()
   checkRoomService()
+  // console.log(datass);
 
-  })
+  },[])
+  useEffect(() => {
+    getUsername()
+  // checkRoomService()
+  console.log(datass);
+
+  },[])
 const Card=(item,visible)=>{
   const showDatePicket = (id) => {
     setSelectedValue(id);
@@ -74,7 +83,10 @@ const Card=(item,visible)=>{
       axios.post(`http://192.168.1.12:3000/spa_restau`,{
         "user_id":user.id,
         "day":d,
-        "time":t
+        "time":t,
+        'hotel_id':datass.room_id.hotel_id,
+        'room_id':datass.room_id.id,
+
       }).then(res=>{
         setAlert(true)
       })
@@ -133,7 +145,7 @@ const Card=(item,visible)=>{
   )}
 const [spa,setSpa]=useState([])
   const get_spa=async()=>{
-      const data=await axios.get('http://192.168.1.12:3000/spa_restau')
+      const data=await axios.get(`http://192.168.1.12:3000/spa_restau?id=${datass.room_id.hotel_id}`)
     setSpa(data.data)
   }
   

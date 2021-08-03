@@ -48,7 +48,7 @@ const [room,setRoom]=useState({
         return (
           <TouchableOpacity style={styles.card} 
           disabled
-          onPress={() => navigation.navigate('Extra')}
+         
           >
             <Image style={styles.image} source={{uri:item.room_id.image}}/>
             <View style={styles.cardContent}>
@@ -65,7 +65,10 @@ const [room,setRoom]=useState({
               return (
                 <TouchableOpacity style={styles.card} 
       
-          onPress={() => navigation.navigate('Extra')}
+          onPress={() => navigation.navigate({name:'Extra',
+                params: {  room:item},
+        
+        })}
           >
             <Image style={styles.image} source={{uri:item.room_id.image}}/>
             <View style={styles.cardContent}>

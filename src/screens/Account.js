@@ -67,7 +67,7 @@ await AsyncStorage.setItem(
   }
 useEffect(()=>{
   getUsername()
-  checkRoomService()
+ 
 })
   
     return (
@@ -135,16 +135,7 @@ useEffect(()=>{
         >
           <Text style={styles.loginText}>Update</Text>
         </TouchableOpacity>
-        {
-          room?(
-<TouchableOpacity style={styles.buttonContainer} onPress={() =>RequestRommService()}>
-          <Text style={styles.loginText}>request room service</Text>
-        </TouchableOpacity>
-          ):
-          (<TouchableOpacity style={styles.buttonContainer} disabled>
-          <Text style={styles.loginText}>room service on it's way</Text>
-        </TouchableOpacity>)
-        }
+      
         
         <TouchableOpacity style={styles.logoutContainer} onPress={async () =>{
                   await AsyncStorage.removeItem("username");

@@ -21,6 +21,8 @@ import axios from "axios";
 import Spa from "./Spa";
 
 const Extra = ({route,navigation}) => {
+  const datass = route.params.room
+
   var [cart, setCart] = useContext(AppCont);
 const Card=(item)=>(
   
@@ -66,13 +68,14 @@ const Card=(item)=>(
   const [user,setUser]=useState([])
   const [room,setRoom]=useState([])
   const getExtra=async()=>{
-axios.get('http://192.168.1.12:3000/extra').then((Response)=>{
+axios.get(`http://192.168.1.12:3000/extra?id=${datass.room_id.hotel_id}`).then((Response)=>{
   setData(Response.data)
 })
   }
 
 
   useEffect(() => {
+    console.log(datass);
     getExtra()
     console.log(cart);
   }, []);
@@ -136,7 +139,7 @@ axios.get('http://192.168.1.12:3000/extra').then((Response)=>{
   }/>
       <TouchableOpacity 
       onPress={() => {
-        navigation.navigate("Card")
+        navigation.navigate({name:"Card",params: {  room:datass}})
         // console.log('aa');
       }}
       style={{backgroundColor:"violet",justifyContent:'center',alignItems:'center',position:'absolute',height:80,width:80,borderRadius:90,right:10,bottom:10}}>
@@ -157,7 +160,7 @@ index==1 && (
     }/>
     <TouchableOpacity 
       onPress={() => {
-        navigation.navigate("Card")
+        navigation.navigate({name:"Card",params: {  room:datass}})
         // console.log('aa');
       }}
       style={{backgroundColor:"violet",justifyContent:'center',alignItems:'center',position:'absolute',height:80,width:80,borderRadius:90,right:10,bottom:10}}>
@@ -169,7 +172,7 @@ index==1 && (
  }
  {
 index==2 && (
-  <Spa/>
+  <Spa roomss={datass}/>
  )
  }
     </View>

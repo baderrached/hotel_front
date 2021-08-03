@@ -9,7 +9,8 @@ import {
   ScrollView,
   TextInput,
   FlatList,
-  ToastAndroid
+  ToastAndroid,
+  AsyncStorage
 } from 'react-native';
 
 import {LinearGradient} from 'expo-linear-gradient';
@@ -19,8 +20,11 @@ import {COLORS, images, SIZES, FONTS, styles} from '../constants';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 const Card = ({route,navigation}) => {
+  const datass = route.params.room
   
   var [cart, setCart] = useContext(AppCont);
+  const [user,setUser]=useState('')
+  
   const Remove=(item)=>{
     var index = cart.indexOf(item);
     let panier;
@@ -35,12 +39,24 @@ const Card = ({route,navigation}) => {
 
     }
     
+  } 
+  const getUsername=async () =>{
+    let usssername=await AsyncStorage.getItem('user')
+    usssername=JSON.parse(usssername);
+    setUser(usssername);
+   
+
+
+   
   }
   const submit=async()=>{
+  
+ 
     console.log(cart);
     const order={
-      "user_id":123,
-      "room_id":1,
+      "user_id":user.id,
+      "room_id":datass.room_id.id,
+      "hotel_id":datass.hotel_id,
       "orders":cart
     }
     const CreateOrder=await axios.post('http://192.168.1.12:3000/CreateOrder',order)
@@ -50,7 +66,10 @@ const Card = ({route,navigation}) => {
   }
   useEffect((
     
-  )=>{},[cart])
+  )=>{
+    getUsername();
+    console.log(datass.hotel_id);
+  },[cart])
   const [alert,setAlert]=useState(false)
   return(
   <View style={styless.container}>
